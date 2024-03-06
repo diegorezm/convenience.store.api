@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("SELECT p FROM Products p WHERE p.sold=FALSE")
-    List<Product> getAllSoldProducts();
     @Query("SELECT p FROM Products p WHERE p.sold=TRUE")
+    List<Product> getAllSoldProducts();
+
+    @Query("SELECT p FROM Products p WHERE p.sold=FALSE")
     List<Product> getAllNotSoldProducts();
 }
