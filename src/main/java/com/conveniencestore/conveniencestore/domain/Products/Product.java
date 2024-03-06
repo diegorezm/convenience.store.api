@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(ProductListener.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +31,5 @@ public class Product {
 
     public Product(ProductDTO request){
         this.entityId = request.entityId();
-    }
-}
-
-class  ProductListener{
-    @PreUpdate
-    public void beforeUpdate(Product entity) {
-        entity.setUpdatedAt(LocalDateTime.now());
     }
 }
