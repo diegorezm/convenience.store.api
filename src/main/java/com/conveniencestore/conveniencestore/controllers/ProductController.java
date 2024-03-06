@@ -24,16 +24,35 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService service;
     private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id", "sold", "asc", "desc");
+
     @GetMapping
     public ResponseEntity<?> getAllProducts(
             @RequestParam(required = false)
             String orderby,
             @RequestParam(required = false)
-            String order)
-    {
+            String order,
+            @RequestParam(required = false)
+            String show
+    ) {
+        // TODO: For now show can't use show with any other query params,
+        //  i have to find a way to fix that.
+        if (show != null && !(show.isEmpty())) {
+            switch (show) {
+                case "sold" -> {
+                    return ResponseEntity.ok().body(this.service.getAllSold());
+                }
+                case "notsold" -> {
+                    return ResponseEntity.ok().body(this.service.getAllNotSold());
+                }
+                default -> {
+                    return ResponseEntity.badRequest().build();
+                }
+            }
+        }
         String sortField = Optional.ofNullable(orderby).orElse("id");
-        String sortOrder = Optional.ofNullable(order).orElse("desc");
-        if(VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder)) return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+        String sortOrder = Optional.ofNullable(order).orElse("asc");
+        if (VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder))
+            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
         return ResponseEntity.badRequest().build();
     }
 
@@ -46,6 +65,7 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @PostMapping
     public ResponseEntity<?> registerNewProduct(@RequestBody @Valid ProductDTO request) {
