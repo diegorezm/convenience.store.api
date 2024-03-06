@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,13 +24,13 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
     public Product insert(ProductDTO data) {
         this.productEntityRepository.findById(data.entityId()).orElseThrow(ProductEntityNotFoundException::new);
         Product product = new Product(data);
-        this.productRepository.save(product);
+        product = this.productRepository.save(product);
         return product;
     }
 
     public List<Product> getAll(String orderby, String order) {
         Sort.Direction direction;
-        switch (order){
+        switch (order) {
             case "asc" -> {
                 direction = Sort.Direction.ASC;
             }
@@ -68,7 +69,8 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
     public Product updateItemStatus(int id, ProductStatusDTO data) {
         Product product = this.productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         product.setSold(data.sold());
-        this.productRepository.save(product);
+        product.setUpdatedAt(LocalDateTime.now());
+        product = this.productRepository.save(product);
         return product;
     }
 }

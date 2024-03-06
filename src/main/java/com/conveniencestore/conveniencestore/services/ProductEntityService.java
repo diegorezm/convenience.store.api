@@ -18,7 +18,7 @@ public class ProductEntityService  implements ServiceInterface<ProductEntity, Pr
 
     public ProductEntity insert(ProductEntityDTO request) {
         ProductEntity productEntity = new ProductEntity(request);
-        productEntityRepository.save(productEntity);
+        productEntity = productEntityRepository.save(productEntity);
         return productEntity;
     }
 
@@ -32,7 +32,7 @@ public class ProductEntityService  implements ServiceInterface<ProductEntity, Pr
         ProductEntity productEntity = this.productEntityRepository.findById(id).orElseThrow(ProductEntityNotFoundException::new);
         productEntity.setName(productEntityRecord.name());
         productEntity.setUpdatedAt(LocalDateTime.now());
-        this.productEntityRepository.save(productEntity);
+        productEntity = this.productEntityRepository.save(productEntity);
         return productEntity;
     }
 
