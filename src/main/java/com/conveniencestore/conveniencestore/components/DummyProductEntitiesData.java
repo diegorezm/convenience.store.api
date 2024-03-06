@@ -1,6 +1,6 @@
 package com.conveniencestore.conveniencestore.components;
 
-import com.conveniencestore.conveniencestore.domain.records.ProductEntityRecord;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntityDTO;
 import com.conveniencestore.conveniencestore.services.ProductEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,14 +17,14 @@ public class DummyProductEntitiesData implements CommandLineRunner {
             "Coffee", "Tea", "Cereal", "Pasta", "Tomato Sauce", "Cheese",
             "Yogurt", "Water", "Soda", "Chips", "Candy", "Cookies",
             "Ice Cream", "Paper Towels"};
-    List<ProductEntityRecord> productList = new ArrayList<>();
+    List<ProductEntityDTO> productList = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
         for (String productName: this.productNames){
-            this.productList.add(new ProductEntityRecord(productName));
+            this.productList.add(new ProductEntityDTO(productName));
         }
-        for (ProductEntityRecord record : productList){
+        for (ProductEntityDTO record : productList){
             this.service.insert(record);
         }
     }

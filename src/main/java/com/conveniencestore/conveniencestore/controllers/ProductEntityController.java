@@ -1,10 +1,9 @@
 package com.conveniencestore.conveniencestore.controllers;
 
-import com.conveniencestore.conveniencestore.domain.models.ProductEntity;
-import com.conveniencestore.conveniencestore.domain.records.ProductEntityRecord;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntity;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntityDTO;
 import com.conveniencestore.conveniencestore.services.ProductEntityService;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +32,13 @@ public class ProductEntityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerNewProduct(@RequestBody @Valid ProductEntityRecord request) {
+    public ResponseEntity<?> registerNewProduct(@RequestBody @Valid ProductEntityDTO request) {
         ProductEntity productEntity = this.service.insert(request);
         return ResponseEntity.status(201).body(productEntity);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody @Valid ProductEntityRecord productEntityRecord) {
+    public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody @Valid ProductEntityDTO productEntityRecord) {
         if (id == null) return ResponseEntity.badRequest().build();
         ProductEntity productEntity = this.service.update(id, productEntityRecord);
         return ResponseEntity.ok().body(productEntity);

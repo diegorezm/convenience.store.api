@@ -1,6 +1,6 @@
-package com.conveniencestore.conveniencestore.domain.repositories;
+package com.conveniencestore.conveniencestore.repositories;
 
-import com.conveniencestore.conveniencestore.domain.models.ProductEntity;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductEntityRepository extends JpaRepository<ProductEntity, Integer> {

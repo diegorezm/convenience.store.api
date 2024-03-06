@@ -1,7 +1,7 @@
 package com.conveniencestore.conveniencestore.services;
 
-import com.conveniencestore.conveniencestore.domain.models.ProductEntity;
-import com.conveniencestore.conveniencestore.domain.records.ProductEntityRecord;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntity;
+import com.conveniencestore.conveniencestore.domain.ProductEntity.ProductEntityDTO;
 import com.conveniencestore.conveniencestore.repositories.ProductEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductEntityService {
     private final ProductEntityRepository productEntityRepository;
 
-    public ProductEntity insert(ProductEntityRecord request) {
+    public ProductEntity insert(ProductEntityDTO request) {
         ProductEntity productEntity = new ProductEntity(request);
         productEntityRepository.save(productEntity);
         return productEntity;
@@ -27,7 +27,7 @@ public class ProductEntityService {
         return productEntity;
     }
 
-    public ProductEntity update(int id, ProductEntityRecord productEntityRecord) {
+    public ProductEntity update(int id, ProductEntityDTO productEntityRecord) {
         ProductEntity productEntity = this.productEntityRepository.findById(id).orElseThrow();
         productEntity.setName(productEntityRecord.name());
         productEntity.setUpdatedAt(LocalDateTime.now());
