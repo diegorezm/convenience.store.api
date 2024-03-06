@@ -1,8 +1,9 @@
-package com.conveniencestore.conveniencestore.domain.models;
+package com.conveniencestore.conveniencestore.domain.Products;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,19 +13,26 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(ProductListener.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int entity_id;
+    private int entityId;
 
     private boolean sold;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
+
+    public Product(ProductDTO request){
+        this.entityId = request.entityId();
+    }
 }
 
 class  ProductListener{

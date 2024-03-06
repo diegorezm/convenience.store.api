@@ -1,9 +1,11 @@
-package com.conveniencestore.conveniencestore.domain.models;
+package com.conveniencestore.conveniencestore.domain.ProductEntity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(ProductEntityListener.class)
 public class ProductEntity {
     @Id
@@ -19,9 +22,17 @@ public class ProductEntity {
 
     private String name;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
+
+    public ProductEntity(ProductEntityDTO request){
+        this.name = request.name();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }
 class ProductEntityListener {
     @PreUpdate
