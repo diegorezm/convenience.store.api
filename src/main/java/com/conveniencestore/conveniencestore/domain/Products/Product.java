@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "Products")
 @Table(name = "Products")
 @Getter
 @Setter
@@ -31,5 +31,7 @@ public class Product {
 
     public Product(ProductDTO request){
         this.entityId = request.entityId();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }
