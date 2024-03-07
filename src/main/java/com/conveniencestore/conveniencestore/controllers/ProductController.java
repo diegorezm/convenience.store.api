@@ -23,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService service;
-    private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id", "sold", "asc", "desc");
+    private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id","entityId", "sold", "asc", "desc", "true", "false");
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(
@@ -32,27 +32,20 @@ public class ProductController {
             @RequestParam(required = false)
             String order,
             @RequestParam(required = false)
-            String show
+            String sold
     ) {
-        // TODO: For now show can't use show with any other query params,
-        //  i have to find a way to fix that.
-        if (show != null && !(show.isEmpty())) {
-            switch (show) {
-                case "sold" -> {
-                    return ResponseEntity.ok().body(this.service.getAllSold());
-                }
-                case "notsold" -> {
-                    return ResponseEntity.ok().body(this.service.getAllNotSold());
-                }
-                default -> {
-                    return ResponseEntity.badRequest().build();
-                }
-            }
-        }
         String sortField = Optional.ofNullable(orderby).orElse("id");
         String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if (VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder))
+        if (VALID_SEARCH_PARAMETERS.contains(sortField)
+                && VALID_SEARCH_PARAMETERS.contains(sortOrder)
+                && sold != null
+                && VALID_SEARCH_PARAMETERS.contains(sold)
+        ) {
+            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder, sold));
+        } else if (
+                VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder)) {
             return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+        }
         return ResponseEntity.badRequest().build();
     }
 
