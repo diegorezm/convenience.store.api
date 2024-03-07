@@ -1,0 +1,25 @@
+# Tabelas
+
+## Entidade 
+````sql
+CREATE TABLE ProductEntity (
+  id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+  name VARCHAR(90) NOT NULL UNIQUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+``````
+
+## Produtos
+````sql
+CREATE TABLE Products (
+  id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+  entity_id BIGINT NOT NULL,
+  sold BOOLEAN DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_product_entity_id FOREIGN KEY (entity_id) REFERENCES ProductEntity(id) ON DELETE CASCADE
+);
+`````
+
+
