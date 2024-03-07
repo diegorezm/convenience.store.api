@@ -7,7 +7,6 @@ import com.conveniencestore.conveniencestore.domain.Products.ProductStatusDTO;
 import com.conveniencestore.conveniencestore.domain.Products.exceptions.ProductNotFoundException;
 import com.conveniencestore.conveniencestore.repositories.ProductEntityRepository;
 import com.conveniencestore.conveniencestore.repositories.ProductRepository;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,12 +43,25 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
         return this.productRepository.findAll(Sort.by(direction, orderby));
     }
 
-    public List<Product> getAllSold() {
-        return this.productRepository.getAllSoldProducts();
-    }
-
-    public List<Product> getAllNotSold() {
-        return this.productRepository.getAllNotSoldProducts();
+    public List<Product> getAll(String orderby, String order, String show) {
+        Sort.Direction direction;
+        switch (order) {
+            case "asc" -> {
+                direction = Sort.Direction.ASC;
+            }
+            case "desc" -> {
+                direction = Sort.Direction.DESC;
+            }
+            default -> {
+                direction = Sort.DEFAULT_DIRECTION;
+            }
+        }
+        if(show.equals("true")){
+            return this.productRepository.findBySoldTrue(Sort.by(direction,orderby));
+        }
+        else {
+            return this.productRepository.findBySoldFalse(Sort.by(direction,orderby));
+        }
     }
 
     public Product getById(int id) {
