@@ -24,11 +24,16 @@ public class ProductEntityController {
             @RequestParam(required = false)
             String orderby,
             @RequestParam(required = false)
-            String order
-            ) {
+            String order,
+            @RequestParam(required = false)
+            String showProducts
+    ) {
+        if (showProducts != null && showProducts.equals("true"))
+            return ResponseEntity.ok().body(this.service.getProductEntitiesWithProducts());
         String sortField = Optional.ofNullable(orderby).orElse("id");
         String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if(VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder)) return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+        if (VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder))
+            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
         return ResponseEntity.badRequest().build();
     }
 
