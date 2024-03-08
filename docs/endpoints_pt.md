@@ -1,3 +1,48 @@
+# Entidades 
+
+## Obter todas as entidades
+Endpoint: `GET products/entities`
+
+### Parâmetros de Consulta Opcionais:
+- `orderby`: Ordena o resultado da requisição. Padrões válidos: ["id", "name"]
+- `order`: Escolher se o resultado da requisição tera ordem crescente ou decrescente. Padrões válidos: ["asc" ,"desc"]
+
+### Exemplo de Requisição:
+````
+GET /products/entities?orderby=id&order=desc
+``````
+
+## Obter entitdade por id
+Endpoint: `GET products/entities/{id}`
+
+ - Body: json
+ - Status: 200 || 404
+
+## Criar nova entidade
+Endpoint: `POST products/entities/{id}`
+````json
+{
+    "name": "Macarrão"
+}
+
+``````
+- Body: json
+- Status: 201
+## Editar entidade
+Endpoint: `PUT products/entities/{id}`
+````json
+{
+    "name": "Leite"
+}
+
+``````
+ - Body: json
+ - Status: 200 || 404
+
+## Deletar entidade
+Endpoint: `DELETE products/entities/{id}`
+ - Body: json
+ - Status: 200 || 404
 
 # Produtos
 ## Obter Todos os Produtos
@@ -55,4 +100,3 @@ Endpoint: `DELETE /products/{id}`
 
 - Body: json
 - Status: 200 || 404
-
