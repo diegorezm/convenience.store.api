@@ -1,5 +1,6 @@
 package com.conveniencestore.conveniencestore.controllers;
 
+import com.conveniencestore.conveniencestore.domain.Error.ErrorDTO;
 import com.conveniencestore.conveniencestore.domain.ProductEntity.exceptions.ProductEntityNotFoundException;
 import com.conveniencestore.conveniencestore.domain.Products.Product;
 import com.conveniencestore.conveniencestore.domain.Products.ProductDTO;
@@ -46,7 +47,8 @@ public class ProductController {
                 VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder)) {
             return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
         }
-        return ResponseEntity.badRequest().build();
+        ErrorDTO error = new ErrorDTO("Request param is not valid.", 400);
+        return ResponseEntity.status(400).body(error);
     }
 
     @GetMapping("{id}")
@@ -55,10 +57,10 @@ public class ProductController {
         try {
             return ResponseEntity.ok().body(this.service.getById(id));
         } catch (ProductNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
+            return ResponseEntity.status(404).body(error);
         }
     }
-
 
     @PostMapping
     public ResponseEntity<?> registerNewProduct(@RequestBody @Valid ProductDTO request) {
@@ -77,7 +79,8 @@ public class ProductController {
             Product product = this.service.updateItemStatus(id, request);
             return ResponseEntity.ok().body(product);
         } catch (ProductNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
+            return ResponseEntity.status(404).body(error);
         }
     }
 
@@ -88,7 +91,8 @@ public class ProductController {
             Product product = this.service.delete(id);
             return ResponseEntity.ok().body(product);
         } catch (ProductNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
+            return ResponseEntity.status(404).body(error);
         }
     }
 }
