@@ -100,3 +100,40 @@ Endpoint: `DELETE /products/{id}`
 
 - Body: json
 - Status: 200 || 404
+
+# Transações
+## Todas as transações
+Endpoint: `GET /transaction`
+
+### Parâmetros de Consulta Opcionais:
+- `order`: Escolher se o resultado da requisição tera ordem crescente ou decrescente. Padrões válidos: ["asc" ,"desc"]
+
+- Body: json
+- Status: 200
+
+## Transação por id
+Endpoint: `GET /transaction/{id}`
+- Body: json
+- Status: 200 || 404
+## transação por id do produto
+Endpoint: `GET /transaction/product/{id}`
+- Body: json
+- Status: 200 || 404
+## Nova transação
+Endpoint: `GET /transaction/product/{id}`
+
+`````json
+{
+    "cpf": "111.111.111-11",
+    "productID": 1
+}
+
+`````````
+
+- Body: json
+- Status: 201 || 404
+
+## Deletar transação por id
+Endpoint: `DELETE /transaction/{id}`
+- Body: json
+- Status: 200 || 404
