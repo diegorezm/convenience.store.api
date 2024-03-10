@@ -21,7 +21,7 @@ public class TransactionService implements ServiceInterface<Transaction, Transac
     private final ProductRepository productRepository;
 
     public Transaction insert(TransactionDTO data) {
-        Product product = this.productRepository.findById(data.productID()).orElseThrow(ProductNotFoundException::new);
+        Product product = this.productRepository.findById(data.productId()).orElseThrow(ProductNotFoundException::new);
         if(product.isSold()) throw new ProductIsSoldException();
         Transaction transaction = new Transaction(data);
         transaction = this.transactionRepository.save(transaction);
@@ -50,7 +50,7 @@ public class TransactionService implements ServiceInterface<Transaction, Transac
     }
 
     public Transaction getByProductId(int id) {
-        return this.transactionRepository.findByProductID(id);
+        return this.transactionRepository.findByProductId(id);
     }
 
     public Transaction delete(int id) {

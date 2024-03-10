@@ -6,6 +6,6 @@ public record TransactionDTO(
         @NotNull(message = "Please provide the client identifier.")
         String cpf,
         @NotNull(message = "Please provide the product id.")
-        int productID
+        int productId
 ) {
 }

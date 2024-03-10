@@ -19,14 +19,14 @@ public class Transaction {
 
     private String cpf;
 
-    private int productID;
+    private int productId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     public Transaction(TransactionDTO data){
         this.cpf = data.cpf();
-        this.productID = data.productID();
+        this.productId = data.productId();
         this.createdAt = LocalDateTime.now();
     }
 }
