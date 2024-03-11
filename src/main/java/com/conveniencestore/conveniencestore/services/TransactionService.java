@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class TransactionService implements ServiceInterface<Transaction, Transac
     }
 
     public Transaction getByProductId(int id) {
-        return this.transactionRepository.findByProductId(id);
+        return this.transactionRepository.findByProductId(id).orElseThrow(TransactionNotFoundException::new);
     }
 
     public Transaction delete(int id) {
