@@ -2,7 +2,6 @@
 
 import { ax } from "@/config/axios";
 import Transaction from "../models/transaction";
-import { Order } from "../queryParams";
 import ErrorMessage from "../models/errorMessage";
 import { AxiosError } from "axios";
 
@@ -26,9 +25,9 @@ async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
   };
 }
 
-export async function getAllTransactions({ order = Order.asc }) {
+export async function getAllTransactions() {
   try {
-    let reqUrl = `${URL}&order=${order}`
+    let reqUrl = `${URL}`
     const response = await ax.get(reqUrl)
     return response.data as Transaction[]
   } catch (error: any) {

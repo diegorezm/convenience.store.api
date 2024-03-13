@@ -20,6 +20,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Button } from "../ui/button"
 import { Input } from "@/components/ui/input"
 import React from "react"
@@ -29,11 +36,13 @@ import { ArrowUpDown } from "lucide-react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  DialogForm: React.ComponentType
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  DialogForm
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -57,15 +66,15 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <div className="flex flex-row gap-2">
+      <div className="flex justify-between items-center py-4">
+        <div className="flex flex-row gap-2 w-1/2">
           <Input
             placeholder="Filter..."
             value={(table.getColumn(filterName)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn(filterName)?.setFilterValue(event.target.value)
             }
-            className="max-w-lg"
+            className="w-full"
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -103,6 +112,25 @@ export function DataTable<TData, TValue>({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <Dialog>
+          <DialogTrigger>
+            <Button>
+              Open
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogForm />
+            <DialogFooter>
+              <Button variant={"outline"}>
+                Cancel
+              </Button>
+              <Button>
+                Ok
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="rounded-md border">
         <Table>
