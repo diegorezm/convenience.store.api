@@ -6,17 +6,7 @@ import { transactionCols } from "../columns/transactionCols"
 import { DataTable } from "@/components/datatable"
 import { getAllTransactions } from "../actions/transactionActions"
 import toast from "react-hot-toast"
-import { DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-const DialogForm = () => {
-  return (
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        kkk
-      </DialogDescription>
-    </DialogHeader>
-  )
-}
+import TransactionInputFilter from "./TransactionInputFilter"
 
 export default function Transactions() {
   const [transactions, setTransaction] = useState<Transaction[]>([])
@@ -31,8 +21,9 @@ export default function Transactions() {
     })
   }, [])
   return (
-    <section className="p-4">
-      <DataTable data={transactions} columns={transactionCols} DialogForm={DialogForm} />
+    <section className="flex flex-col gap-2 p-4">
+    <TransactionInputFilter transactions={transactions} setTransactions={setTransaction}/>
+      <DataTable data={transactions} columns={transactionCols} />
     </section>
   )
 }

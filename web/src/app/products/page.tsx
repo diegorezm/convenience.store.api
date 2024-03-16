@@ -5,20 +5,7 @@ import { entityColumns } from "../columns/entityCols"
 import { useEffect, useState } from "react"
 import ProductEntity from "../models/productEntity"
 import toast from "react-hot-toast"
-import { DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-
-
-const DialogForm = () => {
-  return (
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        kkk
-      </DialogDescription>
-    </DialogHeader>
-  )
-}
-
+import ProductsInputFilter from "./ProductsInputFilter"
 
 export default function Products() {
   const [productEntities, setProductEntities] = useState<ProductEntity[]>([])
@@ -32,8 +19,9 @@ export default function Products() {
     })
   }, [])
   return (
-    <section className="flex flex-col p-4">
-      <DataTable data={productEntities} columns={entityColumns} DialogForm={DialogForm} />
+    <section className="flex flex-col p-4 gap-2">
+      <ProductsInputFilter setProducts={setProductEntities} products={productEntities}/>
+      <DataTable data={productEntities} columns={entityColumns} />
     </section>
   )
 }
