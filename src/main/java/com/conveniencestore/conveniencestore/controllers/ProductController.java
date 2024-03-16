@@ -72,18 +72,6 @@ public class ProductController {
         }
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> updateItemStatus(@PathVariable Integer id, @RequestBody @Valid ProductStatusDTO request) {
-        if (id == null) return ResponseEntity.badRequest().build();
-        try {
-            Product product = this.service.updateItemStatus(id, request);
-            return ResponseEntity.ok().body(product);
-        } catch (ProductNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
-    }
-
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
         if (id == null) return ResponseEntity.badRequest().build();
