@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,10 @@ public class TransactionService implements ServiceInterface<Transaction, Transac
     public Transaction insert(TransactionDTO data) {
         Product product = this.productRepository.findById(data.productId()).orElseThrow(ProductNotFoundException::new);
         if(product.isSold()) throw new ProductIsSoldException();
+        product.setSold(true);
+        product.setUpdatedAt(LocalDateTime.now());
         Transaction transaction = new Transaction(data);
+        productRepository.save(product);
         transaction = this.transactionRepository.save(transaction);
         return transaction;
     }

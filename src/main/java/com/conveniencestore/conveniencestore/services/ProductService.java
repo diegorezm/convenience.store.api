@@ -77,12 +77,4 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
     public Product update(int id, ProductDTO data) {
         return null;
     }
-
-    public Product updateItemStatus(int id, ProductStatusDTO data) {
-        Product product = this.productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-        product.setSold(data.sold());
-        product.setUpdatedAt(LocalDateTime.now());
-        product = this.productRepository.save(product);
-        return product;
-    }
 }
