@@ -8,6 +8,8 @@ public record UserDTO(
         @NotNull(message = "Please provide the email.")
         String email,
         @NotNull(message = "Please provide the password.")
-        String password
+        String password,
+        @NotNull(message = "Please provide the user role.")
+        UserRoles role
 ) {
 }
