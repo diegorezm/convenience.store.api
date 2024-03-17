@@ -1,9 +1,12 @@
 package com.conveniencestore.conveniencestore.domain.users;
 
+import lombok.Getter;
+
+@Getter
 public enum UserRoles {
     ADMIN("admin"),
     EMPLOYEE("employee");
-    private String role;
+    private final String role;
     UserRoles(String role) {
         this.role = role;
     }
