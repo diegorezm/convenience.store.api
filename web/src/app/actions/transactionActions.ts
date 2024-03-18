@@ -1,5 +1,4 @@
 "use server"
-
 import { ax } from "@/config/axios";
 import Transaction from "../models/transaction";
 import ErrorMessage from "../models/errorMessage";
@@ -13,6 +12,12 @@ async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
       return {
         message: "Could not create the new transaction.",
         status: 500
+      }
+    }
+    if (error.response.status == 403 || error.response.status == 401) {
+      return {
+        message: "unauthorized.",
+        status: error.response.status
       }
     }
     if (error.response.status === 400 || error.response.status === 404) {

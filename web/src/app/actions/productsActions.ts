@@ -1,10 +1,10 @@
 "use server"
-import { ax } from "@/config/axios";
-import Product from "../models/product";
-import { Order } from "../queryParams";
-import { OrderByProducts, soldQueryParam } from "../queryParams/productsQueryParams";
-import ErrorMessage from "../models/errorMessage";
-import { AxiosError } from "axios";
+import { ax } from "@/config/axios"
+import Product from "../models/product"
+import { Order } from "../queryParams"
+import { OrderByProducts, soldQueryParam } from "../queryParams/productsQueryParams"
+import ErrorMessage from "../models/errorMessage"
+import { AxiosError } from "axios"
 
 const URL = '/products'
 
@@ -17,13 +17,13 @@ async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
       }
     }
     if (error.response.status === 400 || error.response.status === 404) {
-      return error.response.data as ErrorMessage;
+      return error.response.data as ErrorMessage
     }
   }
   return {
     message: "Internal server error.",
     status: 500
-  };
+  }
 }
 
 export async function getAllProducts({
@@ -31,9 +31,9 @@ export async function getAllProducts({
   order = Order.asc,
   sold
 }: {
-  orderby?: OrderByProducts;
-  order?: Order;
-  sold?: soldQueryParam;
+  orderby?: OrderByProducts
+  order?: Order
+  sold?: soldQueryParam
 }) {
   let reqUrl = `${URL}?orderby=${orderby}`
   if (sold) {
@@ -41,8 +41,8 @@ export async function getAllProducts({
   }
   reqUrl += `&order=${order}`
   try {
-    const response = await ax.get(reqUrl);
-    return response.data as Product[];
+    const response = await ax.get(reqUrl)
+    return response.data as Product[]
   } catch (error: any) {
     return handleAxiosError(error)
   }
