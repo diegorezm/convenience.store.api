@@ -3,7 +3,6 @@ package com.conveniencestore.conveniencestore.services;
 import com.conveniencestore.conveniencestore.domain.users.User;
 import com.conveniencestore.conveniencestore.domain.users.UserDTO;
 import com.conveniencestore.conveniencestore.domain.users.UserResponseDTO;
-import com.conveniencestore.conveniencestore.domain.users.UserRoles;
 import com.conveniencestore.conveniencestore.domain.users.exceptions.UserNotFoundException;
 import com.conveniencestore.conveniencestore.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
