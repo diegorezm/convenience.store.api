@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+@Entity(name = "Users")
 @Table(name="Users")
 @Getter
 @Setter
