@@ -80,21 +80,6 @@ Endpoint: `POST /products`
 - Body: json
 - Status: 200 || 404
 
-
-## Editar status do produto
-Endpoint: `PUT /products/{id}`
-
-### Exemplo de requisição
-`````json
-{
- "sold": true
-}
-
-`````````
-- Body: json
-- Status: 200 || 404
-
-
 ## Deletar produto
 Endpoint: `DELETE /products/{id}`
 
