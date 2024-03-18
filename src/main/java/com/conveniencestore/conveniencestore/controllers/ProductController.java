@@ -4,19 +4,13 @@ import com.conveniencestore.conveniencestore.domain.Error.ErrorDTO;
 import com.conveniencestore.conveniencestore.domain.ProductEntity.exceptions.ProductEntityNotFoundException;
 import com.conveniencestore.conveniencestore.domain.Products.Product;
 import com.conveniencestore.conveniencestore.domain.Products.ProductDTO;
-import com.conveniencestore.conveniencestore.domain.Products.ProductStatusDTO;
 import com.conveniencestore.conveniencestore.domain.Products.exceptions.ProductNotFoundException;
 import com.conveniencestore.conveniencestore.services.ProductService;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

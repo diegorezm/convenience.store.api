@@ -6,7 +6,6 @@ import com.conveniencestore.conveniencestore.domain.Transactions.Transaction;
 import com.conveniencestore.conveniencestore.domain.Transactions.TransactionDTO;
 import com.conveniencestore.conveniencestore.domain.Transactions.exceptions.ProductIsSoldException;
 import com.conveniencestore.conveniencestore.domain.Transactions.exceptions.TransactionNotFoundException;
-import com.conveniencestore.conveniencestore.services.ProductService;
 import com.conveniencestore.conveniencestore.services.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
