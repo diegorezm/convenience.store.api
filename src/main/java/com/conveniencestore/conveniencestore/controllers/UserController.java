@@ -1,14 +1,15 @@
 package com.conveniencestore.conveniencestore.controllers;
 
 import com.conveniencestore.conveniencestore.domain.Error.ErrorDTO;
-import com.conveniencestore.conveniencestore.domain.users.User;
-import com.conveniencestore.conveniencestore.domain.users.UserDTO;
-import com.conveniencestore.conveniencestore.domain.users.UserResponseDTO;
+import com.conveniencestore.conveniencestore.domain.users.*;
 import com.conveniencestore.conveniencestore.domain.users.exceptions.UserNotFoundException;
+import com.conveniencestore.conveniencestore.infra.security.TokenService;
 import com.conveniencestore.conveniencestore.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
     private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id", "username", "email", "asc", "desc");
 
     @GetMapping
@@ -46,9 +49,20 @@ public class UserController {
             return ResponseEntity.status(404).body(error);
         }
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data){
+        UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(),data.password());
+        var auth = this.authenticationManager.authenticate(usernameAndPassword);
+        String token = this.tokenService.genToken((User) auth.getPrincipal());
+        return ResponseEntity.ok().body(new LoginResponseDTO(token));
+    }
 
     @PostMapping
     public ResponseEntity<?> registerNewUser(@RequestBody @Valid UserDTO data) {
+        if(data.password() == null){
+            ErrorDTO error = new ErrorDTO("Please provide the password.", 400);
+            return ResponseEntity.status(400).body(error);
+        }
         UserResponseDTO user = this.service.insert(data);
         return ResponseEntity.ok(user);
     }
