@@ -7,7 +7,6 @@ public record UserDTO(
         String username,
         @NotNull(message = "Please provide the email.")
         String email,
-        @NotNull(message = "Please provide the password.")
         String password,
         @NotNull(message = "Please provide the user role.")
         UserRoles role
