@@ -137,3 +137,63 @@ Endpoint: `GET /transaction/product/{id}`
 Endpoint: `DELETE /transaction/{id}`
 - Body: json
 - Status: 200 || 404
+
+# Users 
+roles = ["admin", "employee"]
+## Login
+Endpoint: `POST /users/login`
+
+```json
+{
+    "email": "dummy@email.com",
+	"password": "1234"
+}
+```
+- Body: json
+- Status: 200 || 403 || 404
+
+## Todos os usuarios
+Endpoint: `GET /users`
+
+- `orderby`: Ordena o resultado da requisição. Padrões válidos: ["id", "username", "email"]
+- `order`: Escolher se o resultado da requisição tera ordem crescente ou decrescente. Padrões válidos: ["asc" ,"desc"]
+
+### Exemplo de Requisição:
+````
+GET /users?orderby=id&order=desc
+``````
+- Body: json
+- Status: 200
+
+## Usuario por id
+Endpoint: `GET /users/{id}`
+
+- Body: json
+- Status: 200 || 404
+
+## Registrar novo usuario
+Endpoint: `POST /users`
+
+```json
+{
+    "username": "dummy",
+    "email": "dummy@email.com",
+	"password": "1234",
+    "role": "employee"
+}
+```
+- Body: json
+- Status: 200 || 403
+## Alterar usuario
+
+Endpoint: `POST /users/{id}`
+
+```json
+{
+    "username": "dummy",
+    "email": "dummy@email.com",
+    "role": "employee"
+}
+```
+- Body: json
+- Status: 200 || 403 || 404
