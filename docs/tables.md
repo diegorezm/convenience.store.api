@@ -1,6 +1,19 @@
-# Tabelas
+# Tables
 
-## Entidade 
+## Users
+```sql
+CREATE TABLE Users (
+    id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+    username VARCHAR(80) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(15) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+```
+
+## Product Entity 
 ````sql
 CREATE TABLE ProductEntity (
   id BIGINT IDENTITY NOT NULL PRIMARY KEY,
@@ -10,7 +23,7 @@ CREATE TABLE ProductEntity (
 );
 ``````
 
-## Produtos
+## Products
 ````sql
 CREATE TABLE Products (
   id BIGINT IDENTITY NOT NULL PRIMARY KEY,
@@ -21,5 +34,3 @@ CREATE TABLE Products (
   CONSTRAINT fk_product_entity_id FOREIGN KEY (entity_id) REFERENCES ProductEntity(id) ON DELETE CASCADE
 );
 `````
-
-
