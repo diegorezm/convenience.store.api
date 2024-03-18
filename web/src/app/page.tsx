@@ -1,4 +1,4 @@
-import { LucideIcon, Receipt, ShoppingBasket, ShoppingCart } from "lucide-react"
+import { LucideIcon, Receipt, ShoppingBasket, ShoppingCart, Users } from "lucide-react"
 
 export default function Home() {
   type Action = {
@@ -18,8 +18,8 @@ export default function Home() {
     Icon: Receipt
   },
   {
-    description: "Ability to generate the receipts for every transaction.",
-    Icon: Receipt
+    description: "Manage all the employees.",
+    Icon: Users
   },
   ]
   return (
@@ -27,20 +27,22 @@ export default function Home() {
       <div>
         <h1 className="text-4xl text-primary text-center">Convenience Store Api</h1>
       </div>
-      <div className="flex flex-col justify-center items-center my-10 border border-border p-2 rounded-[var(--radius)]">
-        <div className="w-full">
-          <h2 className="text-2xl px-5">Features: </h2>
+      <div className="w-full flex justify-center">
+        <div className="flex flex-col justify-center items-center my-10 border border-border p-4 rounded-[var(--radius)] w-1/2">
+          <div className="w-full">
+            <h2 className="text-2xl">Features: </h2>
+          </div>
+          <ul className="grid grid-cols-2 gap-10 my-5 w-full items-center">
+            {actionList.map((e, i) => {
+              return (
+                <li key={i} className="flex flex-row gap-5 items-center justify-start">
+                  <e.Icon className="h-10 w-10" />
+                  <p>{e.description}</p>
+                </li>
+              )
+            })}
+          </ul>
         </div>
-        <ul className="grid grid-cols-2 2xl:grid-cols-3 gap-10 my-5">
-          {actionList.map((e, i) => {
-            return (
-              <li key={i} className="flex flex-row gap-5 items-center">
-                <e.Icon className="h-10 w-10" />
-                <p>{e.description}</p>
-              </li>
-            )
-          })}
-        </ul>
       </div>
     </section>
   )
