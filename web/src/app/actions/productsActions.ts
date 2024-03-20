@@ -10,6 +10,15 @@ const URL = '/products'
 
 async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
   if (error.response) {
+    if (error.response.status == 401 && 'message' in error.response) {
+      return error.response.data as ErrorMessage;
+    }
+    if (error.response.status == 403 || error.response.status == 401) {
+      return {
+        message: "unauthorized.",
+        status: error.response.status
+      }
+    }
     if (error.response.status == 201) {
       return {
         message: "Could not create the new product.",
