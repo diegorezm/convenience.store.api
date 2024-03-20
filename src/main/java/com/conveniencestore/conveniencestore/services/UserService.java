@@ -21,7 +21,7 @@ public class UserService implements ServiceInterface<UserResponseDTO, UserDTO> {
         String password = new BCryptPasswordEncoder().encode(data.password());
         data = new UserDTO(data.username(), data.email(), password, data.role());
         User user = new User(data);
-        return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),user.getCreatedAt(),user.getUpdatedAt());
     }
 
     public List<UserResponseDTO> getAll(String orderby, String order) {
@@ -42,13 +42,13 @@ public class UserService implements ServiceInterface<UserResponseDTO, UserDTO> {
 
     public UserResponseDTO getById(int id) {
         User user= this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        return new UserResponseDTO(user.getId(),user.getUsername(),user.getEmail(),user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),user.getCreatedAt(),user.getUpdatedAt());
     }
 
     public UserResponseDTO delete(int id) {
         User user = this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         this.userRepository.delete(user);
-        return new UserResponseDTO(user.getId(),user.getUsername(),user.getEmail(),user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),user.getCreatedAt(),user.getUpdatedAt());
     }
 
     public UserResponseDTO update(int id, UserDTO data) {
@@ -57,6 +57,6 @@ public class UserService implements ServiceInterface<UserResponseDTO, UserDTO> {
         user.setEmail(data.email());
         user.setEmail(data.email());
         this.userRepository.save(user);
-        return new UserResponseDTO(user.getId(),user.getUsername(),user.getEmail(),user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),user.getCreatedAt(),user.getUpdatedAt());
     }
 }
