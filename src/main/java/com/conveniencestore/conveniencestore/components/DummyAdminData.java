@@ -16,7 +16,7 @@ public class DummyAdminData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         User user = new User();
-        String password = new BCryptPasswordEncoder().encode("1234");
+        String password = new BCryptPasswordEncoder().encode("123456");
         user.setEmail("diego@email.com");
         user.setUsername("diego");
         user.setRole(UserRoles.ADMIN);
