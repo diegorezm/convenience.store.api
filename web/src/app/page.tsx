@@ -28,7 +28,7 @@ export default function Home() {
         <h1 className="text-4xl text-primary text-center">Convenience Store Api</h1>
       </div>
       <div className="w-full flex justify-center">
-        <div className="flex flex-col justify-center items-center my-10 border border-border p-4 rounded-[var(--radius)] w-1/2">
+        <div className="flex flex-col justify-center items-center my-10 border border-border p-4 rounded-[var(--radius)] w-[80%] 2xl:w-1/2">
           <div className="w-full">
             <h2 className="text-2xl">Features: </h2>
           </div>
