@@ -1,10 +1,12 @@
 "use server"
-import { ax } from "@/config/axios";
+import { ax,setAxiosAuthHeader } from "@/config/axios";
 import User, { Login } from "../models/user";
 import { AxiosError } from "axios";
 import ErrorMessage from "../models/errorMessage";
 import { Order } from "../queryParams";
 import { OrderByUsers } from "../queryParams/userQueryParams";
+import authCookieManager from "@/lib/authCookieManager";
+import { deleteToken, setToken } from "@/lib/tokenCookieManager";
 
 const URL = "/users"
 
@@ -15,6 +17,9 @@ async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
         message: "Could not create new user.",
         status: 500
       }
+    }
+    if (error.response.status == 401 && 'message' in (error.response.data as ErrorMessage)) {
+      return error.response.data as ErrorMessage;
     }
     if (error.response.status == 403 || error.response.status == 401) {
       return {
@@ -35,10 +40,14 @@ async function handleAxiosError(error: AxiosError): Promise<ErrorMessage> {
 export async function login(data: Login) {
   type LoginResponse = {
     token: string
+    user: User
   }
   try {
     let reqUrl = `${URL}/login`
+    authCookieManager("true")
     const response = await ax.post(reqUrl, data)
+    setToken(response.data.token)
+    setAxiosAuthHeader(response.data.token)
     return response.data as LoginResponse
   } catch (error: any) {
     return handleAxiosError(error)
@@ -82,4 +91,9 @@ export async function deleteUser(id: number) {
   } catch (error: any) {
     return handleAxiosError(error)
   }
+}
+
+export async function logout(){
+  authCookieManager("false")
+  deleteToken()
 }
