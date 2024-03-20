@@ -9,7 +9,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,17 +51,25 @@ public class UserController {
             return ResponseEntity.status(404).body(error);
         }
     }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data){
-        UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(),data.password());
-        var auth = this.authenticationManager.authenticate(usernameAndPassword);
-        String token = this.tokenService.genToken((User) auth.getPrincipal());
-        return ResponseEntity.ok().body(new LoginResponseDTO(token));
+    public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data) {
+        try {
+            UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+            var auth = this.authenticationManager.authenticate(usernameAndPassword);
+            User user = (User) auth.getPrincipal();
+            String token = this.tokenService.genToken(user);
+            return ResponseEntity.ok().body(new LoginResponseDTO(token, user));
+        } catch (BadCredentialsException e) {
+            ErrorDTO error = new ErrorDTO("Invalid email or password", 401);
+            return ResponseEntity.status(401).body(error);
+        }
+
     }
 
     @PostMapping
     public ResponseEntity<?> registerNewUser(@RequestBody @Valid UserDTO data) {
-        if(data.password() == null){
+        if (data.password() == null) {
             ErrorDTO error = new ErrorDTO("Please provide the password.", 400);
             return ResponseEntity.status(400).body(error);
         }
