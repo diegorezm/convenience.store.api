@@ -1,5 +1,5 @@
 "use server"
-import { ax,setAxiosAuthHeader } from "@/config/axios";
+import { ax, axInterceptor, setAxiosAuthHeader } from "@/config/axios";
 import User, { Login } from "../models/user";
 import { AxiosError } from "axios";
 import ErrorMessage from "../models/errorMessage";
@@ -44,8 +44,8 @@ export async function login(data: Login) {
   }
   try {
     let reqUrl = `${URL}/login`
-    authCookieManager("true")
     const response = await ax.post(reqUrl, data)
+    authCookieManager("true")
     setToken(response.data.token)
     setAxiosAuthHeader(response.data.token)
     return response.data as LoginResponse
@@ -93,7 +93,8 @@ export async function deleteUser(id: number) {
   }
 }
 
-export async function logout(){
-  authCookieManager("false")
+export async function logout() {
   deleteToken()
+  authCookieManager("false")
+  ax.interceptors.request.eject(axInterceptor)
 }
