@@ -17,6 +17,8 @@ import { login } from '../actions/userActions'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '@/lib/useAuthStore'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { RefreshCw } from 'lucide-react'
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please provide a valid email." }),
@@ -25,6 +27,7 @@ const loginFormSchema = z.object({
 
 export default function LoginPage() {
   const { userPersist } = useAuthStore()
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -38,14 +41,20 @@ export default function LoginPage() {
       email: values.email,
       password: values.password
     }
-    const response = await login(authUser)
-    if ('message' in response) {
-      toast.error(response.message)
-    } else {
-      userPersist(response.user, response.token)
-      toast.success("User logged in!")
-      form.reset()
-      router.push("/")
+    try {
+      setLoading(true)
+      const response = await login(authUser)
+      if ('message' in response) {
+        toast.error(response.message)
+      } else {
+        userPersist(response.user, response.token)
+        toast.success("User logged in!")
+        form.reset()
+        router.push("/")
+      }
+    }
+    finally {
+      setLoading(false)
     }
   }
 
@@ -75,13 +84,22 @@ export default function LoginPage() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your password..." {...field} />
+                <Input type='password' placeholder="Your password..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {
+          loading ? (
+            <Button disabled>
+              <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit">Submit</Button>
+          )
+        }
       </form>
     </Form>
   )
