@@ -11,4 +11,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findBySoldTrue(Sort sort);
     List<Product> findBySoldFalse(Sort sort);
+    List<Product> findByEntityId(Integer id);
 }

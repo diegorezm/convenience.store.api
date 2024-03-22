@@ -56,11 +56,10 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
                 direction = Sort.DEFAULT_DIRECTION;
             }
         }
-        if(show.equals("true")){
-            return this.productRepository.findBySoldTrue(Sort.by(direction,orderby));
-        }
-        else {
-            return this.productRepository.findBySoldFalse(Sort.by(direction,orderby));
+        if (show.equals("true")) {
+            return this.productRepository.findBySoldTrue(Sort.by(direction, orderby));
+        } else {
+            return this.productRepository.findBySoldFalse(Sort.by(direction, orderby));
         }
     }
 
@@ -72,6 +71,10 @@ public class ProductService implements ServiceInterface<Product, ProductDTO> {
         Product product = this.productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         this.productRepository.delete(product);
         return product;
+    }
+
+    public List<Product> getAllByEntityId(int id) {
+        return this.productRepository.findByEntityId(id);
     }
 
     public Product update(int id, ProductDTO data) {

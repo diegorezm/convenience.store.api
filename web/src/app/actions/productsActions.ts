@@ -68,12 +68,22 @@ export async function getProductById(id: number) {
   }
 }
 
+export async function getProductByEntityId(id: number) {
+  try {
+    let reqUrl = `${URL}/entity/${id}`
+    const response = await ax.get(reqUrl)
+    return response.data as Product[]
+  } catch (error: any) {
+    return handleAxiosError(error)
+  }
+}
+
 export async function registerNewProduct(data: ProductEntity) {
   try {
     const response = await ax.post(URL, data)
     return response.data as Product
   } catch (error: any) {
-    return handleAxiosError(error) 
+    return handleAxiosError(error)
   }
 }
 
@@ -84,6 +94,6 @@ export async function deleteProduct(id: number) {
     return response.data as Product
   } catch (error: any) {
     return handleAxiosError(error)
-    
+
   }
 }

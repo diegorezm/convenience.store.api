@@ -55,6 +55,17 @@ public class ProductController {
             return ResponseEntity.status(404).body(error);
         }
     }
+    @GetMapping("/entity/{id}")
+    public ResponseEntity<?> getProductByEntityId(@PathVariable Integer id){
+        if (id == null) return ResponseEntity.badRequest().build();
+        try{
+            return ResponseEntity.ok().body(this.service.getAllByEntityId(id));
+        }catch (Exception e){
+            ErrorDTO error = new ErrorDTO("Something went wrong!.", 500);
+            return ResponseEntity.status(500).body(error);
+        }
+    }
+
 
     @PostMapping
     public ResponseEntity<?> registerNewProduct(@RequestBody @Valid ProductDTO request) {
