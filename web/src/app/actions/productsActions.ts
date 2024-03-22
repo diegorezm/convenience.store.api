@@ -1,10 +1,11 @@
 "use server"
 import { ax } from "@/config/axios"
-import Product from "../models/product"
+import ProductEntity from "../models/product"
 import { Order } from "../queryParams"
 import { OrderByProducts, soldQueryParam } from "../queryParams/productsQueryParams"
 import ErrorMessage from "../models/errorMessage"
 import { AxiosError } from "axios"
+import Product from "../models/product"
 
 const URL = '/products'
 
@@ -67,23 +68,12 @@ export async function getProductById(id: number) {
   }
 }
 
-export async function registerNewProduct(data: Product) {
+export async function registerNewProduct(data: ProductEntity) {
   try {
     const response = await ax.post(URL, data)
-    return response.data
+    return response.data as Product
   } catch (error: any) {
     return handleAxiosError(error) 
-  }
-}
-
-export async function updateItemStatus(data: Product) {
-  try {
-    let reqUrl = `${URL}/${data.id}`
-    const response = await ax.put(reqUrl, data)
-    return response.data
-  } catch (error: any) {
-    return handleAxiosError(error) 
-    
   }
 }
 
