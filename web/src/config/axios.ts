@@ -6,15 +6,17 @@ export const ax = axios.create({
 })
 
 // this should be a temporary solution
-ax.interceptors.request.use(async (config) => {
+export const axInterceptor = ax.interceptors.request.use(async (config) => {
   const token = await getToken()
-  config.headers.Authorization = `Bearer ${token}`
+  if (token != "") {
+    config.headers.Authorization = `Bearer ${token}`
+  }
   return config
 }, (error) => {
   return Promise.reject(error)
 })
 
 export const setAxiosAuthHeader = async (token: string) => {
-    ax.defaults.headers.common.Authorization = `Bearer ${token}`
-    console.log("header: " + ax.defaults.headers.Authorization)
+  ax.defaults.headers.common.Authorization = `Bearer ${token}`
+  console.log("header: " + ax.defaults.headers.Authorization)
 }
