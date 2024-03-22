@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data) {
         try {
             UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
@@ -63,6 +63,9 @@ public class UserController {
         } catch (BadCredentialsException e) {
             ErrorDTO error = new ErrorDTO("Invalid email or password", 401);
             return ResponseEntity.status(401).body(error);
+        }catch (UserNotFoundException e){
+            ErrorDTO error = new ErrorDTO("User not found.", 404);
+            return ResponseEntity.status(404).body(error);
         }
 
     }
