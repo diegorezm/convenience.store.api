@@ -19,6 +19,7 @@ import { useAuthStore } from '@/lib/useAuthStore'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { RefreshCw } from 'lucide-react'
+import LoadingButton from '@/components/loadingButton'
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please provide a valid email." }),
@@ -90,16 +91,7 @@ export default function LoginPage() {
             </FormItem>
           )}
         />
-        {
-          loading ? (
-            <Button disabled>
-              <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </Button>
-          ) : (
-            <Button type="submit">Submit</Button>
-          )
-        }
+        <LoadingButton text="submit" type='submit' loadingText='Deleting...' isLoading={loading}/>
       </form>
     </Form>
   )
