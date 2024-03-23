@@ -5,7 +5,6 @@ export const ax = axios.create({
   baseURL: 'http://localhost:8080',
 })
 
-// this should be a temporary solution
 export const axInterceptor = ax.interceptors.request.use(async (config) => {
   const token = await getToken()
   if (token != "") {
