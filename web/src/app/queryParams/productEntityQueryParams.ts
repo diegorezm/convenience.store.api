@@ -8,3 +8,8 @@ export enum ShowProducts {
   true = "true"
 }
 
+export enum EntityActionsParam {
+  showInfo = "showInfo",
+  deleteEntity = "deleteEntity",
+  editEntity = "editEntity"
+}
