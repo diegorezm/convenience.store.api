@@ -3,30 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import ProductEntity from "../models/productEntity";
 import { formatDistance } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Info, ArrowUpDown, MoreHorizontal, Trash2, Pencil, LucideIcon } from "lucide-react";
-type Actions = {
-  name: string
-  Icon: LucideIcon
-}
-const actions: Actions[] = [
-  {
-    name: "edit",
-    Icon: Pencil
-  },
-  {
-    name: "delete",
-    Icon: Trash2
-  }
-]
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { ArrowUpDown } from "lucide-react";
+import DropdownColumnEntity from "@/components/productEntityModal/dropdownColumn";
 
 export const entityColumns: ColumnDef<ProductEntity>[] = [
   {
@@ -108,32 +86,7 @@ export const entityColumns: ColumnDef<ProductEntity>[] = [
     id: "actions",
     cell: ({ row }) => {
       const entity = row.original
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              className="flex flex-row gap-2 items-center"
-              onClick={() => navigator.clipboard.writeText(entity.id.toString())}
-            >
-              <Info className="w-4 h-4" /> Product info
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {actions.map((e, u) => (
-              <DropdownMenuItem key={u}
-                className="flex flex-row gap-2 items-center">
-                <e.Icon className="w-4 h-4" />
-                {e.name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>)
+      return <DropdownColumnEntity product={entity} />
     },
   },
 ]
