@@ -18,7 +18,6 @@ import toast from 'react-hot-toast'
 import { useAuthStore } from '@/lib/useAuthStore'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { RefreshCw } from 'lucide-react'
 import LoadingButton from '@/components/loadingButton'
 
 const loginFormSchema = z.object({
