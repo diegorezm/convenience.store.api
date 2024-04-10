@@ -1,6 +1,6 @@
 import { useState } from "react"
 import DeleteDropdown from "@/components/deletedropdown"
-import { deleteProduct } from "../actions/productsActions"
+import { deleteProduct } from "@/actions/productsActions"
 import toast from "react-hot-toast"
 
 type DeleteProductDropdownProps = {

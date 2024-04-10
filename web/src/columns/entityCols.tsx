@@ -1,10 +1,12 @@
+"use client"
 import { ColumnDef } from "@tanstack/react-table";
-import Transaction from "../models/transaction";
+import ProductEntity from "@/models/productEntity";
+import { formatDistance } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { formatDistance } from "date-fns";
+import DropdownColumnEntity from "@/components/productEntityModal/dropdownColumn";
 
-export const transactionCols: ColumnDef<Transaction>[] = [
+export const entityColumns: ColumnDef<ProductEntity>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -21,8 +23,9 @@ export const transactionCols: ColumnDef<Transaction>[] = [
       )
     },
   },
+
   {
-    accessorKey: "cpf",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <div className="text-center">
@@ -30,23 +33,7 @@ export const transactionCols: ColumnDef<Transaction>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cpf
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "productId",
-    header: ({ column }) => {
-      return (
-        <div className="text-center">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Product id
+            Name
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -62,7 +49,7 @@ export const transactionCols: ColumnDef<Transaction>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Created at
+            Created
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -74,5 +61,32 @@ export const transactionCols: ColumnDef<Transaction>[] = [
       return <div>{d}</div>
     }
   },
-
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
+      return (
+        <div className="text-center">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Updated
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const day = row.getValue("updatedAt") as Date
+      const d = formatDistance(day, new Date(), { addSuffix: true })
+      return <div>{d}</div>
+    }
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const entity = row.original
+      return <DropdownColumnEntity product={entity} />
+    },
+  },
 ]

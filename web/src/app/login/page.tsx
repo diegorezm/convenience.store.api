@@ -2,7 +2,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from 'zod'
-import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -12,8 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Login } from '../models/user'
-import { login } from '../actions/userActions'
+import { Login } from '@/models/user'
+import { login } from '@/actions/userActions'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '@/lib/useAuthStore'
 import { useRouter } from 'next/navigation'
@@ -90,7 +89,7 @@ export default function LoginPage() {
             </FormItem>
           )}
         />
-        <LoadingButton text="submit" type='submit' loadingText='Deleting...' isLoading={loading}/>
+        <LoadingButton text="submit" type='submit' isLoading={loading} />
       </form>
     </Form>
   )

@@ -1,5 +1,5 @@
-import User from '@/app/models/user'
-import { ax, setAxiosAuthHeader } from '@/config/axios'
+import User from '@/models/user'
+import { setAxiosAuthHeader } from '@/config/axios'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 

@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Info, LucideIcon, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
-import ProductEntity from "@/app/models/productEntity";
+import ProductEntity from "@/models/productEntity";
 import {  usePathname, useRouter } from "next/navigation";
-import { EntityActionsParam } from "@/app/queryParams/productEntityQueryParams";
+import { EntityActionsParam } from "@/queryParams/productEntityQueryParams";
 
 type Actions = {
   name: string

@@ -24,16 +24,16 @@ import {
 } from "@/components/ui/table"
 import { EntityDropdownProps } from "./page";
 import { useEffect, useState } from "react";
-import ProductEntity from "../models/productEntity";
-import Product from "../models/product";
-import { getProductEntityById } from "../actions/productEntityActions";
-import { getProductByEntityId } from "../actions/productsActions";
+import ProductEntity from "@/models/productEntity";
+import Product from "@/models/product";
+import { getProductEntityById } from "@/actions/productEntityActions";
+import { getProductByEntityId } from "@/actions/productsActions";
 import toast from "react-hot-toast";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftRight, LucideIcon, MoreHorizontal, Trash2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { ProductActionsParam } from "../queryParams/productsQueryParams";
+import { ProductActionsParam } from "@/queryParams/productsQueryParams";
 
 type Actions = {
   name: string
@@ -41,7 +41,7 @@ type Actions = {
   paramFn: (id: number) => void
 }
 
-export default function EntityInfoDropdown({ clearParams, id }: EntityDropdownProps) {
+export default function InfoProductDropdown({ clearParams, id }: EntityDropdownProps) {
   const pId = parseInt(id)
 
   const { replace } = useRouter()

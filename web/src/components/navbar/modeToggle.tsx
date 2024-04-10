@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import useTheme from "@/app/hooks/useTheme"
+import useTheme from "@/hooks/useTheme"
 import { useEffect } from "react"
 
 export default function ModeToggle() {

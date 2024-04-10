@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Transaction from "../models/transaction"
-import { transactionCols } from "../columns/transactionCols"
+import Transaction from "@/models/transaction"
+import { transactionCols } from "@/columns/transactionCols"
 import { DataTable } from "@/components/datatable"
-import { getAllTransactions } from "../actions/transactionActions"
+import { getAllTransactions } from "@/actions/transactionActions"
 import toast from "react-hot-toast"
 import TransactionInputFilter from "./TransactionInputFilter"
 

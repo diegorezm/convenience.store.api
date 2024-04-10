@@ -9,8 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { ArrowUpDown } from "lucide-react";
-import ProductEntity from "../models/productEntity";
-import { getAllProductEntities } from "../actions/productEntityActions";
+import ProductEntity from "@/models/productEntity";
+import { getAllProductEntities } from "@/actions/productEntityActions";
 import toast from "react-hot-toast";
 
 type ProductsTypeFilterProps = {

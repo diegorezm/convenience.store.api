@@ -2,11 +2,11 @@
 
 import { useAuthStore } from "@/lib/useAuthStore"
 import ModeToggle from "./modeToggle"
-import { LucideIcon, HomeIcon, ScanBarcode, ArrowLeftRight, LogIn, LogOutIcon } from 'lucide-react'
+import { LucideIcon, HomeIcon, ScanBarcode, ArrowLeftRight, LogIn, LogOutIcon, SlidersHorizontal } from 'lucide-react'
 import Button from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { logout } from "@/app/actions/userActions"
+import { logout } from "@/actions/userActions"
 import toast from "react-hot-toast"
 
 type Tag = {
@@ -26,6 +26,7 @@ const noAuth: Tag[] = [
     path: "/login"
   }
 ]
+
 const tags: Tag[] = [
   {
     name: "home",
@@ -34,15 +35,10 @@ const tags: Tag[] = [
 
   },
   {
-    name: "products",
-    Icon: ScanBarcode,
-    path: "/products"
+    name: "dashboard",
+    Icon: SlidersHorizontal,
+    path: "/dashboard"
 
-  },
-  {
-    name: "transaction",
-    Icon: ArrowLeftRight,
-    path: "/transactions"
   }
 ]
 

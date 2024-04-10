@@ -1,5 +1,5 @@
 import DeleteDropdown from "@/components/deletedropdown"
-import { deleteProductEntity } from "../actions/productEntityActions"
+import { deleteProductEntity } from "@/actions/productEntityActions"
 import { EntityDropdownProps } from "./page"
 import { useState } from "react"
 import toast from "react-hot-toast"

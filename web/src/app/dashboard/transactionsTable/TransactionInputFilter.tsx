@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { ArrowUpDown } from "lucide-react";
 import toast from "react-hot-toast";
-import Transaction from "../models/transaction";
-import { getAllTransactions } from "../actions/transactionActions";
+import Transaction from "@/models/transaction";
+import { getAllTransactions } from "@/actions/transactionActions";
 
 type ProductsTypeFilterProps = {
   transactions: Transaction[]
