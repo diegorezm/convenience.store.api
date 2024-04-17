@@ -17,14 +17,16 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String genToken(User user){
+    public TokenResponseDTO genToken(User user){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.create()
+            Instant exp = this.genExpDate();
+            String token = JWT.create()
                     .withIssuer("auth-provider")
                     .withSubject(user.getEmail())
-                    .withExpiresAt(this.genExpDate())
+                    .withExpiresAt(exp)
                     .sign(algorithm);
+            return new TokenResponseDTO(token, exp);
         }catch (JWTCreationException e){
             throw new JWTCreationException("Could not generate new token",e);
         }
