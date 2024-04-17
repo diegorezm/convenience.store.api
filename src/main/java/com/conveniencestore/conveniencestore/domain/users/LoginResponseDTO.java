@@ -1,7 +1,10 @@
 package com.conveniencestore.conveniencestore.domain.users;
 
+import java.time.Instant;
+
 public record LoginResponseDTO(
         String token,
-        User user
+        Instant expiresAt,
+        UserResponseDTO user
 ) {
 }
