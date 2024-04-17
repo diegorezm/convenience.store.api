@@ -23,28 +23,29 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<?> getAllTransactions(
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "asc")
             String order
-    ){
-        String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if(!sortOrder.equals("asc") && !sortOrder.equals("desc")) {
+    ) {
+        if (!order.equals("asc") && !order.equals("desc")) {
             ErrorDTO error = new ErrorDTO("Request param is not valid.", 404);
             return ResponseEntity.status(400).body(error);
         }
-        return ResponseEntity.ok().body(this.service.getAll("id", sortOrder));
+        return ResponseEntity.ok().body(this.service.getAll("id", order));
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<?> getTransactionById(@PathVariable Integer id){
+    public ResponseEntity<?> getTransactionById(@PathVariable Integer id) {
         try {
             Transaction transaction = this.service.getById(id);
             return ResponseEntity.ok().body(transaction);
-        }catch (TransactionNotFoundException e){
+        } catch (TransactionNotFoundException e) {
             ErrorDTO error = new ErrorDTO("This transaction was not found.", 404);
             return ResponseEntity.status(404).body(error);
         }
     }
+
     @GetMapping("/product/{id}")
-    public ResponseEntity<?> getTransactionByProductId(@PathVariable Integer id){
+    public ResponseEntity<?> getTransactionByProductId(@PathVariable Integer id) {
         Transaction transaction = this.service.getByProductId(id);
         if (transaction == null) {
             ErrorDTO error = new ErrorDTO("This transaction was not found.", 404);
@@ -52,24 +53,26 @@ public class TransactionController {
         }
         return ResponseEntity.ok().body(transaction);
     }
+
     @PostMapping
-    public  ResponseEntity<?> registerNewTransaction(@RequestBody @Valid TransactionDTO data) {
+    public ResponseEntity<?> registerNewTransaction(@RequestBody @Valid TransactionDTO data) {
         try {
             Transaction transaction = this.service.insert(data);
             return ResponseEntity.status(201).body(transaction);
-        }catch (ProductNotFoundException e ){
+        } catch (ProductNotFoundException e) {
             ErrorDTO error = new ErrorDTO("This product was not found.", 404);
             return ResponseEntity.status(404).body(error);
-        }catch (ProductIsSoldException e){
+        } catch (ProductIsSoldException e) {
             ErrorDTO error = new ErrorDTO("This product has already been sold.", 404);
             return ResponseEntity.status(401).body(error);
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
 
     }
+
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteTransaction(@PathVariable Integer id){
+    public ResponseEntity<?> deleteTransaction(@PathVariable Integer id) {
         Transaction transaction = this.service.delete(id);
         return ResponseEntity.ok().body(transaction);
     }
