@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,28 +19,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService service;
-    private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id","entityId", "sold", "asc", "desc", "true", "false");
+    private static final List<String> VALID_SEARCH_PARAMETERS = List.of("id", "entityId", "sold", "asc", "desc", "true", "false");
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "id")
             String orderby,
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "asc")
             String order,
             @RequestParam(required = false)
             String sold
     ) {
-        String sortField = Optional.ofNullable(orderby).orElse("id");
-        String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if (VALID_SEARCH_PARAMETERS.contains(sortField)
-                && VALID_SEARCH_PARAMETERS.contains(sortOrder)
+        if (VALID_SEARCH_PARAMETERS.contains(orderby)
+                && VALID_SEARCH_PARAMETERS.contains(order)
                 && sold != null
                 && VALID_SEARCH_PARAMETERS.contains(sold)
         ) {
-            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder, sold));
+            return ResponseEntity.ok().body(this.service.getAll(orderby, order, sold));
         } else if (
-                VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder)) {
-            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+                VALID_SEARCH_PARAMETERS.contains(orderby) && VALID_SEARCH_PARAMETERS.contains(order)) {
+            return ResponseEntity.ok().body(this.service.getAll(orderby, order));
         }
         ErrorDTO error = new ErrorDTO("Request param is not valid.", 400);
         return ResponseEntity.status(400).body(error);
@@ -55,12 +54,13 @@ public class ProductController {
             return ResponseEntity.status(404).body(error);
         }
     }
+
     @GetMapping("/entity/{id}")
-    public ResponseEntity<?> getProductByEntityId(@PathVariable Integer id){
+    public ResponseEntity<?> getProductByEntityId(@PathVariable Integer id) {
         if (id == null) return ResponseEntity.badRequest().build();
-        try{
+        try {
             return ResponseEntity.ok().body(this.service.getAllByEntityId(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             ErrorDTO error = new ErrorDTO("Something went wrong!.", 500);
             return ResponseEntity.status(500).body(error);
         }

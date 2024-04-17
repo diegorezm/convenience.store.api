@@ -22,19 +22,13 @@ public class ProductEntityController {
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "id")
             String orderby,
-            @RequestParam(required = false)
-            String order,
-            @RequestParam(required = false)
-            String showProducts
+            @RequestParam(required = false, defaultValue = "asc")
+            String order
     ) {
-        if (showProducts != null && showProducts.equals("true"))
-            return ResponseEntity.ok().body(this.service.getProductEntitiesWithProducts());
-        String sortField = Optional.ofNullable(orderby).orElse("id");
-        String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if (VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder))
-            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+        if (VALID_SEARCH_PARAMETERS.contains(orderby) && VALID_SEARCH_PARAMETERS.contains(order))
+            return ResponseEntity.ok().body(this.service.getAll(orderby, order));
         ErrorDTO error = new ErrorDTO("Request param is not valid.", 400);
         return ResponseEntity.status(400).body(error);
     }
@@ -49,7 +43,6 @@ public class ProductEntityController {
             ErrorDTO error = new ErrorDTO("This product was not found.", 404);
             return ResponseEntity.status(404).body(error);
         }
-
     }
 
     @PostMapping

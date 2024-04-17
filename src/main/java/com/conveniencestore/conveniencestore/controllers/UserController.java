@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,15 +27,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> getAllUsers(
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "id")
             String orderby,
-            @RequestParam(required = false)
+            @RequestParam(required = false, defaultValue = "asc")
             String order
     ) {
-        String sortField = Optional.ofNullable(orderby).orElse("id");
-        String sortOrder = Optional.ofNullable(order).orElse("asc");
-        if (VALID_SEARCH_PARAMETERS.contains(sortField) && VALID_SEARCH_PARAMETERS.contains(sortOrder))
-            return ResponseEntity.ok().body(this.service.getAll(sortField, sortOrder));
+        if (VALID_SEARCH_PARAMETERS.contains(orderby) && VALID_SEARCH_PARAMETERS.contains(order))
+            return ResponseEntity.ok().body(this.service.getAll(orderby, order));
         ErrorDTO error = new ErrorDTO("Request param is not valid.", 400);
         return ResponseEntity.status(400).body(error);
     }
@@ -58,12 +55,14 @@ public class UserController {
             UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
             var auth = this.authenticationManager.authenticate(usernameAndPassword);
             User user = (User) auth.getPrincipal();
-            String token = this.tokenService.genToken(user);
-            return ResponseEntity.ok().body(new LoginResponseDTO(token, user));
+            var token = this.tokenService.genToken(user);
+            UserResponseDTO responseDTO = new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(),
+                    user.getRole(), user.getCreatedAt(), user.getUpdatedAt());
+            return ResponseEntity.ok().body(new LoginResponseDTO(token.token(), token.expiresAt(), responseDTO));
         } catch (BadCredentialsException e) {
             ErrorDTO error = new ErrorDTO("Invalid email or password", 401);
             return ResponseEntity.status(401).body(error);
-        }catch (UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             ErrorDTO error = new ErrorDTO("User not found.", 404);
             return ResponseEntity.status(404).body(error);
         }

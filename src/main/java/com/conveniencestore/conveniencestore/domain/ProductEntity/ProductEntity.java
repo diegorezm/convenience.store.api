@@ -1,5 +1,6 @@
 package com.conveniencestore.conveniencestore.domain.ProductEntity;
 
+import com.conveniencestore.conveniencestore.domain.Products.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "ProductEntity")
@@ -27,7 +29,10 @@ public class ProductEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public ProductEntity(ProductEntityDTO request){
+    @OneToMany(mappedBy = "entityId")
+    List<Product> products;
+
+    public ProductEntity(ProductEntityDTO request) {
         this.name = request.name();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
