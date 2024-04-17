@@ -26,18 +26,20 @@ public class User implements UserDetails {
     private String password;
     private UserRoles role;
 
-    public User (UserDTO data){
-        this.username = data.username();
-        this.role = data.role();
-        this.email = data.email();
-        this.password = data.password();
-    }
-
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
+
+    public User (UserDTO data){
+        this.username = data.username();
+        this.role = data.role();
+        this.email = data.email();
+        this.password = data.password();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
