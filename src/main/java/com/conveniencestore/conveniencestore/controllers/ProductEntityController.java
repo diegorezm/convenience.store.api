@@ -36,13 +36,8 @@ public class ProductEntityController {
     @GetMapping("{id}")
     public ResponseEntity<?> getProductById(@PathVariable Integer id) {
         if (id == null) return ResponseEntity.badRequest().build();
-        try {
-            ProductEntity productEntity = this.service.getById(id);
-            return ResponseEntity.ok().body(productEntity);
-        } catch (ProductEntityNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
+        ProductEntity productEntity = this.service.getById(id);
+        return ResponseEntity.ok().body(productEntity);
     }
 
     @PostMapping
@@ -54,26 +49,14 @@ public class ProductEntityController {
     @PutMapping("{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody @Valid ProductEntityDTO productEntityRecord) {
         if (id == null) return ResponseEntity.badRequest().build();
-        try {
-            ProductEntity productEntity = this.service.update(id, productEntityRecord);
-            return ResponseEntity.ok().body(productEntity);
-        } catch (ProductEntityNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
-
+        ProductEntity productEntity = this.service.update(id, productEntityRecord);
+        return ResponseEntity.ok().body(productEntity);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
         if (id == null) return ResponseEntity.badRequest().build();
-        try {
-            ProductEntity productEntity = this.service.delete(id);
-            return ResponseEntity.ok().body(productEntity);
-        } catch (ProductEntityNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
-
+        ProductEntity productEntity = this.service.delete(id);
+        return ResponseEntity.ok().body(productEntity);
     }
 }

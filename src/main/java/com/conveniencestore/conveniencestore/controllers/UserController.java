@@ -51,22 +51,13 @@ public class UserController {
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data) {
-        try {
-            UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-            var auth = this.authenticationManager.authenticate(usernameAndPassword);
-            User user = (User) auth.getPrincipal();
-            var token = this.tokenService.genToken(user);
-            UserResponseDTO responseDTO = new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(),
-                    user.getRole(), user.getCreatedAt(), user.getUpdatedAt());
-            return ResponseEntity.ok().body(new LoginResponseDTO(token.token(), token.expiresAt(), responseDTO));
-        } catch (BadCredentialsException e) {
-            ErrorDTO error = new ErrorDTO("Invalid email or password", 401);
-            return ResponseEntity.status(401).body(error);
-        } catch (UserNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("User not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
-
+        UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+        var auth = this.authenticationManager.authenticate(usernameAndPassword);
+        User user = (User) auth.getPrincipal();
+        var token = this.tokenService.genToken(user);
+        UserResponseDTO responseDTO = new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(),
+                user.getRole(), user.getCreatedAt(), user.getUpdatedAt());
+        return ResponseEntity.ok().body(new LoginResponseDTO(token.token(), token.expiresAt(), responseDTO));
     }
 
     @PostMapping

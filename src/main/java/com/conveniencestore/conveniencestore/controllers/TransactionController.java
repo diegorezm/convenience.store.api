@@ -35,13 +35,8 @@ public class TransactionController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getTransactionById(@PathVariable Integer id) {
-        try {
-            Transaction transaction = this.service.getById(id);
-            return ResponseEntity.ok().body(transaction);
-        } catch (TransactionNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This transaction was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
+        Transaction transaction = this.service.getById(id);
+        return ResponseEntity.ok().body(transaction);
     }
 
     @GetMapping("/product/{id}")
@@ -56,19 +51,8 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> registerNewTransaction(@RequestBody @Valid TransactionDTO data) {
-        try {
-            Transaction transaction = this.service.insert(data);
-            return ResponseEntity.status(201).body(transaction);
-        } catch (ProductNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This product was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        } catch (ProductIsSoldException e) {
-            ErrorDTO error = new ErrorDTO("This product has already been sold.", 404);
-            return ResponseEntity.status(401).body(error);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
-
+        Transaction transaction = this.service.insert(data);
+        return ResponseEntity.status(201).body(transaction);
     }
 
     @DeleteMapping("{id}")
