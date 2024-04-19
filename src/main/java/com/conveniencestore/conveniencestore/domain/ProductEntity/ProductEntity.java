@@ -29,7 +29,7 @@ public class ProductEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "entityId")
+    @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
     List<Product> products;
 
     public ProductEntity(ProductEntityDTO request) {
