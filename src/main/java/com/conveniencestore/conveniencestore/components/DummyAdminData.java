@@ -13,14 +13,17 @@ import org.springframework.stereotype.Component;
 public class DummyAdminData implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public void run(String... args) throws Exception {
-        User user = new User();
         String password = new BCryptPasswordEncoder().encode("123456");
-        user.setEmail("diego@email.com");
-        user.setUsername("diego");
-        user.setRole(UserRoles.ADMIN);
-        user.setPassword(password);
+        UserDTO userDTO = new UserDTO("diego", "diego@email.com", password, UserRoles.ADMIN);
+        User user = new User(userDTO);
         this.userRepository.save(user);
+
+        password = new BCryptPasswordEncoder().encode("123456");
+        userDTO = new UserDTO("one", "one@email.com", password, UserRoles.EMPLOYEE);
+        User one = new User(userDTO);
+        this.userRepository.save(one);
     }
 }
