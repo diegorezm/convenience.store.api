@@ -28,8 +28,6 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-docs
-*.md
 
 ### VS Code ###
 .vscode/
