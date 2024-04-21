@@ -39,18 +39,13 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer id) {
         if (id == null) return ResponseEntity.badRequest().build();
-        try {
-            return ResponseEntity.ok(this.service.getById(id));
-        } catch (UserNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This user was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
+        return ResponseEntity.ok(this.service.getById(id));
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody @Valid UserAuthDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid UserAuthDTO data) {
         UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernameAndPassword);
         User user = (User) auth.getPrincipal();
@@ -71,13 +66,14 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> editUser(@PathVariable Integer id, @RequestBody @Valid UserDTO data) {
-        try {
-            UserResponseDTO user = this.service.update(id, data);
-            return ResponseEntity.ok(user);
-        } catch (UserNotFoundException e) {
-            ErrorDTO error = new ErrorDTO("This user was not found.", 404);
-            return ResponseEntity.status(404).body(error);
-        }
+    public ResponseEntity<UserResponseDTO> editUser(@PathVariable Integer id, @RequestBody @Valid EditUserDTO data) {
+        UserResponseDTO user = this.service.update(id, data);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Integer id) {
+        if(id == null) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(this.service.delete(id));
     }
 }
