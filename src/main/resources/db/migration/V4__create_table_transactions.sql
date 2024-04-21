@@ -4,4 +4,4 @@ CREATE TABLE Transactions (
     product_id BIGINT NOT NULL,
     created_at DATETIME NOT NULL,
     CONSTRAINT fk_products_id FOREIGN KEY (product_id) REFERENCES Products(id)
-)
+);
