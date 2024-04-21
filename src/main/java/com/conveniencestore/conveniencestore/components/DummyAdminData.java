@@ -20,10 +20,5 @@ public class DummyAdminData implements CommandLineRunner {
         UserDTO userDTO = new UserDTO("diego", "diego@email.com", password, UserRoles.ADMIN);
         User user = new User(userDTO);
         this.userRepository.save(user);
-
-        password = new BCryptPasswordEncoder().encode("123456");
-        userDTO = new UserDTO("one", "one@email.com", password, UserRoles.EMPLOYEE);
-        User one = new User(userDTO);
-        this.userRepository.save(one);
     }
 }
