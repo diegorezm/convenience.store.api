@@ -1,6 +1,7 @@
 package com.conveniencestore.conveniencestore.config.exceptions;
 
 import com.conveniencestore.conveniencestore.domain.Error.ErrorDTO;
+import com.conveniencestore.conveniencestore.domain.users.exceptions.UserAlreadyExistsException;
 import com.conveniencestore.conveniencestore.domain.users.exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,12 @@ public class UserExceptionHandler {
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<ErrorDTO> hanndler(UserNotFoundException e) {
         ErrorDTO error = new ErrorDTO(e.getMessage(), 404);
+        return ResponseEntity.status(error.status()).body(error);
+    }
+
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    public ResponseEntity<ErrorDTO> hanndler(UserAlreadyExistsException e) {
+        ErrorDTO error = new ErrorDTO(e.getMessage(), 409);
         return ResponseEntity.status(error.status()).body(error);
     }
 

@@ -4,6 +4,7 @@ import com.conveniencestore.conveniencestore.domain.users.EditUserDTO;
 import com.conveniencestore.conveniencestore.domain.users.User;
 import com.conveniencestore.conveniencestore.domain.users.UserDTO;
 import com.conveniencestore.conveniencestore.domain.users.UserResponseDTO;
+import com.conveniencestore.conveniencestore.domain.users.exceptions.UserAlreadyExistsException;
 import com.conveniencestore.conveniencestore.domain.users.exceptions.UserNotFoundException;
 import com.conveniencestore.conveniencestore.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,11 @@ public class UserService implements ServiceInterface<UserResponseDTO, UserDTO> {
     private final UserRepository userRepository;
 
     public UserResponseDTO insert(UserDTO data) {
-        if (userRepository.findUserByEmail(data.email()).isPresent()) return null;
+        if (userRepository.findUserByEmail(data.email()).isPresent()) throw new UserAlreadyExistsException();
         String password = new BCryptPasswordEncoder().encode(data.password());
         data = new UserDTO(data.username(), data.email(), password, data.role());
         User user = new User(data);
+        user = this.userRepository.save(user);
         return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getCreatedAt(), user.getUpdatedAt());
     }
 
